@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="/static/css/favorite.css">
+</head>
+<body>
+    <h1>Select Favorite Team</h1>
+    <div class="listBlock">
+
+    </div>
+    <script type="text/javascript">
+        let teamList = {{team_list|tojson}};
+        let listBlock = document.querySelector(".listBlock");
+        let unorderedList = document.createElement("ul");
+
+        teamList.forEach(item=>{
+            let list = document.createElement("li");
+            list.innerHTML = item.team.name;
+            unorderedList.append(list);
+        })
+
+        listBlock.appendChild(unorderedList);
+    </script>
+</body>
+</html>
