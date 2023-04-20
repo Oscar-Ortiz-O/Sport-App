@@ -24,15 +24,15 @@
         let unorderedList = document.createElement("ul");
 
         //Iterate through each JSON object in Python list
-        teamList.forEach(getTeamNames);
+        teamList.forEach(createTeamNameList);
 
         //Append entire list to HTML "listBlock" element
         listBlock.appendChild(unorderedList);
 
         //Parse through JSON "team" object and append names to list object
-        function getTeamNames(teamObj){
+        function createTeamNameList(teamJSONArray){
             let listItem = document.createElement("li");
-            listItem.innerHTML = teamObj.team.name;
+            listItem.innerHTML = teamJSONArray.team.name;
             unorderedList.append(listItem);
         }
     </script>
