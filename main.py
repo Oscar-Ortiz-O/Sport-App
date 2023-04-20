@@ -23,9 +23,15 @@ def playersPage():
 
 @app.route('/games/')
 def gamesPage():
-    league_ids = sd.getTopLeagues()
+    league_ids = [
+        sd.getLeagueID(headers=sd.header, country="Spain", name="La Liga"),
+        sd.getLeagueID(headers=sd.header, country="England", name="Premier League"),
+        sd.getLeagueID(headers=sd.header, country="Germany", name="Bundesliga"),
+        sd.getLeagueID(headers=sd.header, country="Italy", name="Serie A"),
+        sd.getLeagueID(headers=sd.header, country="France", name="Ligue 1"),
+    ]
     for id in league_ids:
-        future_games = sd.getFutureGames("", id)
+        future_games = sd.getFutureGames(sd.header, id)
         future_games = helpers.formatFutureGames(future_games)
         print(future_games)
         print()
