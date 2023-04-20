@@ -32,5 +32,12 @@ def favorite_page():
     return render_template('favorite.html', team_list=team_list)
 
 
+@app.route('/favorite_confirm/', methods=['GET'])
+def favorite_conf_page():
+    team_name = request.args.get('team_name')
+    sd.set_favorite_team(team_name)
+    return render_template('favorite_confirm.html')
+
+
 if __name__ == "__main__":
     app.run(debug=True)

@@ -20,20 +20,18 @@
         //Get HTML "listBlock" element for modifying
         let listBlock = document.querySelector(".listBlock");
 
-        //Create list element to append to HTML "listBlock"
-        let unorderedList = document.createElement("ul");
-
         //Iterate through each JSON object in Python list
         teamList.forEach(createTeamNameList);
 
-        //Append entire list to HTML "listBlock" element
-        listBlock.appendChild(unorderedList);
-
         //Parse through JSON "team" object and append names to list object
         function createTeamNameList(teamJSONArray){
-            let listItem = document.createElement("li");
-            listItem.innerHTML = teamJSONArray.team.name;
-            unorderedList.append(listItem);
+            let name = document.createElement("a");
+            let br = document.createElement("br");
+            var teamName = String(teamJSONArray.team.name);
+            name.textContent = teamName;
+            name.setAttribute('href', "/favorite_confirm?team_name="+teamName);
+            listBlock.appendChild(name);
+            listBlock.appendChild(br);
         }
     </script>
 </body>
