@@ -1,10 +1,10 @@
 from flask import Flask, render_template, request, redirect, url_for, Response
 import soccer_data as sd
+import helpers
 import json, requests
 import subprocess
 
 app = Flask(__name__)
-
 
 @app.route('/')
 def index():
@@ -23,6 +23,12 @@ def playersPage():
 
 @app.route('/games/')
 def gamesPage():
+    league_ids = sd.getTopLeagues()
+    for id in league_ids:
+        future_games = sd.getFutureGames("", id)
+        future_games = helpers.formatFutureGames(future_games)
+        print(future_games)
+        print()
     return render_template('games.html')
 
 
