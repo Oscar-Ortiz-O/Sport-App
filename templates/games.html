@@ -1,4 +1,4 @@
-﻿<!doctype html>
+<!doctype html>
 <html>
 	<head>
 		<title>Our Funky HTML Page</title>
@@ -6,6 +6,44 @@
 		<meta name="keywords" content="html tutorial template">
 	</head>
 	<body>
-		Content goes here.
+		<style>
+			a {
+				margin-top: 10px;
+				display: block;
+			}
+			#gamesList {
+				display: flex;
+				justify-content: space-around;
+			}
+
+			.league-container {
+				border-left: 1px solid black;
+				padding-left: 20px;
+				
+			}
+		</style>
+		<h1>All Games</h1>
+		<div id="gamesList">
+		</div>
+		<script type="text/javascript">
+			let games = {{all_games|tojson}};
+			games_html = "";
+			games.forEach(league=>{
+				games_html += `
+					<div class="league-container">
+					<h2>${league["league_name"]}</h2>
+				`;
+				league['games'].forEach(game => {
+					games_html += `
+						<h4>${game["date"]}</h4>
+						<a href="/game/${game["id"]}">${game["team_one"]} vs ${game["team_two"]}</a>
+						<br />
+					`;
+				})
+				games_html += "</div>"
+			})
+			document.querySelector("#gamesList").innerHTML = games_html;
+
+		</script>
 	</body>
 </html>

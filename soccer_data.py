@@ -1,6 +1,6 @@
 import requests
 import json
-
+from datetime import datetime
 
 # Retrieves the API key
 def getKey(fileName):
@@ -70,6 +70,28 @@ def getGames(headers, leagueID, season=2022, last=5):
     gameInfo = json.loads(response.text)
     return gameInfo['response']
 
+# Returns future games for current season within a league
+def getFutureGames(headers, leagueID):
+    if headers == None or leagueID == -1 or leagueID == None:
+        return None
+    url = "https://api-football-v1.p.rapidapi.com/v3/fixtures"
+    params = {"league": leagueID, "season": 2022,
+              'from': datetime.today().strftime('%Y-%m-%d'), "to": "2023-10-10"}
+
+    response = requests.request("GET", url, headers=headers, params=params)
+    gameInfo = json.loads(response.text)
+    return gameInfo['response']
+
+# Returns id of a league given the league name and country
+def getLeagueID(headers, name, country):
+    if headers == None or name == "" or name == None or country == "" or country == None:
+        return -1
+    url = "https://api-football-v1.p.rapidapi.com/v3/leagues"
+    request = requests.request("GET", url, headers=header, params={"name": name, "country": country, "current": True})
+    result = json.loads(request.text)
+    if result['results'] == 0:
+        return -1
+    return result['response'][0]["league"]["id"]
 
 # Returns array containing game information
 def getGameInfo(headers, gameID):
