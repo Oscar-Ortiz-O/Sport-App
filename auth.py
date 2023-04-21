@@ -20,19 +20,19 @@ def email_in_use(email):
       if users['user'][id]['email'] == email:
          # If so, return True
          return True
-   # If no matche, then return False
+   # If no match, then return False
    return False   
 
 def same_username(username):
    # Open the database file
    with open('data/database.json', 'r') as openfile:
       users = json.load(openfile)
-   # Look if email matches one that is already in use
+   # Look if username matches one that is already in use
    for id in users['user']:
       if users['user'][id]['username'] == username:
          # If so, return True
          return True
-   # If no matche, then return False
+   # If no match, then return False
    return False   
 
 
