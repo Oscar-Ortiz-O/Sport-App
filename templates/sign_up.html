@@ -1,0 +1,87 @@
+<!doctype html>
+<html>
+	<head>
+		<title>Sign Up</title>
+		<meta name="description" content="Our first page">
+		<meta name="keywords" content="html tutorial template">
+	</head>
+	<body class="center">
+      
+      
+      
+      
+      <div>
+         <form class="border" method="POST">
+            <h1 align="center">Sign Up</h1>
+            <div class="form-group">
+               <input autofocus
+                  type="email"
+                  class="form-control"
+                  id="email"
+                  name="email"
+                  placeholder="Enter email"/>
+            </div>
+            <br>
+            <div class="form-group">
+               <input
+                  type="text"
+                  class="form-control"
+                  id="username"
+                  name="username"
+                  placeholder="Enter username"/>
+            </div>
+            <br>
+            <div class="form-group">
+               <input autofocus
+                  type="password"
+                  class="form-control"
+                  id="password1"
+                  name="password1"
+                  placeholder="Password"/>
+            </div><br>
+            <div class="form-group">
+               <input autofocus
+                  type="password"
+                  class="form-control"
+                  id="password2"
+                  name="password2"
+                  placeholder="Confirm Password"/>
+            </div>
+            <br>
+            <div class="form-group">
+               <input class="btn btn-primary"
+                  type="submit"
+                  value="Sign Up">
+             </div>
+         </form>  
+      </div>
+      <br>
+      
+	</body>
+</html>
+<style>
+   .center{
+      margin: auto;
+      padding: 5px;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      -ms-transform: translate(-50%, -50%);
+      transform: translate(-50%, -50%);
+   }
+   .border{
+      padding: 10px;
+      border: 3px solid green;
+   }
+   input{
+      border: none;
+      border-bottom: 2px solid green;
+   }
+   input[type=submit]{
+      background-color: green;
+      color: white;
+      cursor: pointer;
+      padding: 10px 20px;
+      border-radius: 8%;
+   }
+</style>
