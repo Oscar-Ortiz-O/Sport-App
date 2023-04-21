@@ -2,6 +2,7 @@ import requests
 import json
 from datetime import datetime
 
+
 # Retrieves the API key
 def getKey(fileName):
     file = open(fileName, encoding='utf-8-sig')
@@ -70,6 +71,7 @@ def getGames(headers, leagueID, season=2022, last=5):
     gameInfo = json.loads(response.text)
     return gameInfo['response']
 
+
 # Returns future games for current season within a league
 def getFutureGames(headers, leagueID):
     if headers == None or leagueID == -1 or leagueID == None:
@@ -82,6 +84,7 @@ def getFutureGames(headers, leagueID):
     gameInfo = json.loads(response.text)
     return gameInfo['response']
 
+
 # Returns id of a league given the league name and country
 def getLeagueID(headers, name, country):
     if headers == None or name == "" or name == None or country == "" or country == None:
@@ -92,6 +95,7 @@ def getLeagueID(headers, name, country):
     if result['results'] == 0:
         return -1
     return result['response'][0]["league"]["id"]
+
 
 # Returns array containing game information
 def getGameInfo(headers, gameID):
@@ -125,6 +129,30 @@ def get_favorite_team():
         print("favorite.json File Does Not Exist!")
 
     return team_name
+
+
+# Author: Mark
+def list_all_teams():
+    team_list = []
+    temp_list = []
+    with open("all_teams.txt", "w+") as file:
+        for i in range(1, 32):
+            try:
+                temp_list = getTeams(get_header(), i)
+            except KeyError:
+                print("Error " + str(i))
+            for team in temp_list:
+                name = team["team"]["name"]
+                if name not in team_list:
+                    team_list.append(name)
+                    file.write(name + "\n")
+    return team_list
+
+
+def get_header():
+    k = getKey("api_key.json")
+    h = createHeader(k)
+    return h
 
 
 # USE THIS TO GET THE HEADER
