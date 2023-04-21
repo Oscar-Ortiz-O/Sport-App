@@ -3,7 +3,7 @@ from datetime import date as dt
 
 # Takes future games response from api and returns an object containing future games id, teams, and date
 def formatFutureGames(future_games):
-    if len(future_games) == 0:
+    if len(future_games) == 0 or future_games == None:
         return []
     unsorted_games = []
     for games in future_games:

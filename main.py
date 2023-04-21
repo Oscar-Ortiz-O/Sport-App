@@ -23,20 +23,24 @@ def playersPage():
 
 @app.route('/games/')
 def gamesPage():
-    league_ids = [
-        sd.getLeagueID(headers=sd.header, country="Spain", name="La Liga"),
-        sd.getLeagueID(headers=sd.header, country="England", name="Premier League"),
-        sd.getLeagueID(headers=sd.header, country="Germany", name="Bundesliga"),
-        sd.getLeagueID(headers=sd.header, country="Italy", name="Serie A"),
-        sd.getLeagueID(headers=sd.header, country="France", name="Ligue 1"),
+    leagues_information = [
+        {"league_name": "La Liga", "id": sd.getLeagueID(headers=sd.header, country="Spain", name="La Liga")},
+        {"league_name":"Premier League", "id":sd.getLeagueID(headers=sd.header, country="England", name="Premier League")},
+        {"league_name":"Bundesliga", "id":sd.getLeagueID(headers=sd.header, country="Germany", name="Bundesliga")},
+        {"league_name":"Serie A", "id":sd.getLeagueID(headers=sd.header, country="Italy", name="Serie A")},
+        {"league_name":"Ligue 1", "id":sd.getLeagueID(headers=sd.header, country="France", name="Ligue 1")},
     ]
-    for id in league_ids:
-        future_games = sd.getFutureGames(sd.header, id)
+    all_games = []
+    for league in leagues_information:
+        future_games = sd.getFutureGames(sd.header, league["id"])
         future_games = helpers.formatFutureGames(future_games)
-        print(future_games)
-        print()
-    return render_template('games.html')
+        all_games.append({"league_name": league["league_name"], "games": future_games})
+    print(all_games)
+    return render_template('games.html', all_games=all_games)
 
+@app.route('/game/<id>')
+def individualGamePage(id):
+    return render_template('game.html', id=id)
 
 @app.route('/favorite/')
 def favorite_page():
