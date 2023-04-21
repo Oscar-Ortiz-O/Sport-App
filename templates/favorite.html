@@ -5,7 +5,7 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>Favorite</title>
     <link rel="stylesheet" href="/static/css/favorite.css">
 </head>
 <body>
@@ -14,17 +14,25 @@
 
     </div>
     <script type="text/javascript">
+        //Get "team_list" parameter from flask call
         let teamList = {{team_list|tojson}};
+
+        //Get HTML "listBlock" element for modifying
         let listBlock = document.querySelector(".listBlock");
-        let unorderedList = document.createElement("ul");
 
-        teamList.forEach(item=>{
-            let list = document.createElement("li");
-            list.innerHTML = item.team.name;
-            unorderedList.append(list);
-        })
+        //Iterate through each JSON object in Python list
+        teamList.forEach(createTeamNameList);
 
-        listBlock.appendChild(unorderedList);
+        //Parse through JSON "team" object and append names to list object
+        function createTeamNameList(teamJSONArray){
+            let name = document.createElement("a");
+            let br = document.createElement("br");
+            var teamName = String(teamJSONArray.team.name);
+            name.textContent = teamName;
+            name.setAttribute('href', "/favorite_confirm?team_name="+teamName);
+            listBlock.appendChild(name);
+            listBlock.appendChild(br);
+        }
     </script>
 </body>
 </html>

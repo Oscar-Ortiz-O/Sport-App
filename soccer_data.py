@@ -8,6 +8,7 @@ def getKey(fileName):
     keys = json.load(file)
     return keys['api_key']
 
+
 # Returns the header which allows access to the API calls
 def createHeader(key):
     header = {
@@ -15,10 +16,10 @@ def createHeader(key):
         'x-rapidapi-key': key}
     return header
 
+
 # Returns an array of dictionaries containing all teams within a league
 # Example: La Liga has ID of 140 
-def getTeams(headers, leagueID, season = 2022):
-
+def getTeams(headers, leagueID, season=2022):
     url = "https://api-football-v1.p.rapidapi.com/v3/teams"
     params = {"league": leagueID, "season": season}
 
@@ -26,21 +27,21 @@ def getTeams(headers, leagueID, season = 2022):
     teamsInfo = json.loads(response.text)
     return teamsInfo['response']
 
+
 # Returns an array of dictionaries containing all teams within a league
 # Example: Barcelona has ID of 529
 def getTeamInfo(headers, teamID):
-    
     url = "https://api-football-v1.p.rapidapi.com/v3/teams"
     params = {"id": teamID}
 
     response = requests.request("GET", url, headers=headers, params=params)
     teamsInfo = json.loads(response.text)
-    return teamsInfo['response']   
+    return teamsInfo['response']
+
 
 # Returns an array of dictionaries containing all teams within a league
 # Example: Barcelona has ID of 529
-def getPlayers(headers, teamID, season = 2022):
-
+def getPlayers(headers, teamID, season=2022):
     url = "https://api-football-v1.p.rapidapi.com/v3/players"
     params = {"team": teamID, "season": season}
 
@@ -48,10 +49,10 @@ def getPlayers(headers, teamID, season = 2022):
     playerInfo = json.loads(response.text)
     return playerInfo['response']
 
+
 # Returns containing all teams within a league
 # Example: Jordi Alba Ramos has ID of 128
-def getPlayerInfo(headers, playerID, season = 2022):
-    
+def getPlayerInfo(headers, playerID, season=2022):
     url = "https://api-football-v1.p.rapidapi.com/v3/players"
     params = {"id": playerID, "season": season}
 
@@ -59,9 +60,9 @@ def getPlayerInfo(headers, playerID, season = 2022):
     playerInfo = json.loads(response.text)
     return playerInfo['response']
 
+
 # Returns array containing the last 'n' games within a league
-def getGames(headers, leagueID, season = 2022, last = 5):
-    
+def getGames(headers, leagueID, season=2022, last=5):
     url = "https://api-football-v1.p.rapidapi.com/v3/fixtures"
     params = {"league": leagueID, "season": season, "last": last}
 
@@ -94,7 +95,6 @@ def getLeagueID(headers, name, country):
 
 # Returns array containing game information
 def getGameInfo(headers, gameID):
-    
     url = "https://api-football-v1.p.rapidapi.com/v3/fixtures"
     params = {"id": gameID}
 
@@ -103,7 +103,30 @@ def getGameInfo(headers, gameID):
     return gameInfo['response']
 
 
+# Receives a String and writes to "favorite.json"
+# Author: Mark
+def set_favorite_team(team_name):
+    team_name_dict = {"team name": team_name}
+    json_object = json.dumps(team_name_dict, indent=4)
+
+    with open("favorite.json", "w+") as JSON_file:
+        JSON_file.write(json_object)
+
+
+# Get favorite team String from JSON file
+# Author: Mark
+def get_favorite_team():
+    try:
+        with open("favorite.json", "r") as JSON_file:
+            team_name_dict = json.load(JSON_file)
+            team_name = team_name_dict["team name"]
+    except FileNotFoundError:
+        team_name = "undefined"
+        print("favorite.json File Does Not Exist!")
+
+    return team_name
+
+
 # USE THIS TO GET THE HEADER
 key = getKey("api_key.json")
 header = createHeader(key)
-
