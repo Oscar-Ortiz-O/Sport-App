@@ -10,11 +10,11 @@ def getKey(fileName):
     return keys['api_key']
 
 
-# Returns the header which allows access to the API calls
-def createHeader(key):
+# Returns the header which allows access to the API requests
+def createHeader():
     header = {
         'x-rapidapi-host': "api-football-v1.p",
-        'x-rapidapi-key': key}
+        'x-rapidapi-key': getKey("api_key.json")}
     return header
 
 
@@ -147,14 +147,15 @@ def list_all_teams():
                     team_list.append(name)
                     file.write(name + "\n")
     return team_list
-
+    
 
 def get_header():
     k = getKey("api_key.json")
-    h = createHeader(k)
+    h = createHeader()
     return h
 
 
 # USE THIS TO GET THE HEADER
 key = getKey("api_key.json")
-header = createHeader(key)
+header = createHeader()
+
