@@ -83,10 +83,11 @@ def login():
                 print("Error: No combination of credentials")
             # Else means there are no errors, so we log in
             else:
-                # Create a session
-                create_session(email)
-                # Redirect the user to the index page
-                return redirect(url_for('index'))
+                # Check if session was created
+                if create_session(email) > 0:
+                    # Redirect the user to the index page
+                    return redirect(url_for('index'))
+                print("Error: Failure creating session")
     # Display the original template
     return render_template('login.html')
 

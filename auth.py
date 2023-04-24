@@ -68,6 +68,8 @@ def create_session(email):
          session['user_id'] = id 
          session['email'] = users['user'][id]['email']
          session['username'] = users['user'][id]['username']
+         return 1
+   return 0
 
 # Check if there is a valid session
 def valid_session():
