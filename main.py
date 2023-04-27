@@ -4,7 +4,7 @@ import helpers
 import json, requests
 import subprocess
 from werkzeug.security import generate_password_hash
-from auth import validate_email, email_in_use, same_username, valid_user_pswd_combination, create_session, valid_session
+from auth import validate_email, email_in_use, same_username, valid_user_pswd_combination, create_session, valid_session, log_out
 import uuid
 import secretKey as sk
 
@@ -148,6 +148,10 @@ def signup():
     # Displaying original template
     return render_template('sign_up.html')
 
+@app.route('/Logout/')
+def logout():
+    log_out()
+    return redirect(url_for('login'))
 
 if __name__ == "__main__":
     app.run(debug=True)

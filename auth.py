@@ -80,7 +80,14 @@ def valid_session():
    # Otherwise there is no session 
    return False
 
-
+# Removing the data from the current session
+def log_out():
+   # Check if there is a valid session to be erased
+   if valid_session():
+      session.pop('user_id', None)
+      session.pop('email', None)
+      session.pop('username', None)
+   return
 
 
 
