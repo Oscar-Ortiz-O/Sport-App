@@ -4,10 +4,11 @@
 		<title>Login Page</title>
 		<meta name="description" content="Our first page">
 		<meta name="keywords" content="html tutorial template">
+      <link rel="stylesheet" href="/static/css/login_signup.css">
 	</head>
-	<body class="center">
-      <div>
-         <form class="border" method="POST">
+	<body>
+      <div class="center border">
+         <form method="POST">
             <h1 align="center">Log In</h1>
             <div class="form-group">
                <input autofocus
@@ -27,43 +28,18 @@
                   placeholder="Password"/>
             </div>
             <br>
-            <div class="form-group">
+            <div align="center" class="form-group">
                <input class="btn btn-primary"
                   type="submit"
                   value="Log In">
              </div>
          </form>  
+         <br>
+         <div>
+            <a href="/SignUp/">No account? Sign Up Now!</a>
+         </div>
       </div>
       <br>
-      <div>
-         <a href="/SignUp/">No account? Sign Up Now!</a>
-      </div>
       
 	</body>
 </html>
-<style>
-   .center{
-      margin: auto;
-      padding: 5px;
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      -ms-transform: translate(-50%, -50%);
-      transform: translate(-50%, -50%);
-   }
-   .border{
-      padding: 10px;
-      border: 3px solid green;
-   }
-   input{
-      border: none;
-      border-bottom: 2px solid green;
-   }
-   input[type=submit]{
-      background-color: green;
-      color: white;
-      cursor: pointer;
-      padding: 10px 20px;
-      border-radius: 8%;
-   }
-</style>
