@@ -114,7 +114,7 @@ def set_favorite_team(team_name):
     team_name_dict = {"team name": team_name}
     json_object = json.dumps(team_name_dict, indent=4)
 
-    with open("favorite.json", "w+") as JSON_file:
+    with open("data/favorite.json", "w+") as JSON_file:
         JSON_file.write(json_object)
 
 
@@ -122,7 +122,7 @@ def set_favorite_team(team_name):
 # Author: Mark
 def get_favorite_team():
     try:
-        with open("favorite.json", "r") as JSON_file:
+        with open("data/favorite.json", "r") as JSON_file:
             team_name_dict = json.load(JSON_file)
             team_name = team_name_dict["team name"]
     except FileNotFoundError:
