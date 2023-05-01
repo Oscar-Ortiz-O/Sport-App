@@ -33,9 +33,7 @@ def gamesPage():
     all_games = []
     for league in leagues_information:
         future_games = sd.getFutureGames(sd.header, league["id"])
-        future_games = helpers.formatFutureGames(future_games)
         all_games.append({"league_name": league["league_name"], "games": future_games})
-    print(all_games)
     return render_template('games.html', all_games=all_games)
 
 @app.route('/game/<id>')
