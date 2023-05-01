@@ -45,10 +45,21 @@ def gamesPage():
 def individualGamePage(id):
     return render_template('game.html', id=id)
 
+@app.route('/search_favorite/', methods=['GET', 'POST'])
+def search_favorite_page():
+    if request.method == 'POST':
+        lid = request.form.get("lid")
+        year = request.form.get("year")
+        return redirect(url_for(".favorite_page", year=year, lid=lid))
+    return render_template('search_favorite.html')
+
 @app.route('/favorite/')
 def favorite_page():
-    team_list = sd.getTeams(sd.header, 140)
-    return render_template('favorite.html', team_list=team_list)
+    lid = request.args.get('lid')
+    year = request.args.get('year')
+    team_list = sd.parse_team_list(sd.get_team(lid, year))
+    print(sd.get_team(lid, year))
+    return render_template('favorite.html', data=team_list)
 
 
 @app.route('/favorite_confirm/', methods=['GET'])
