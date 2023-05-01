@@ -148,8 +148,23 @@ def list_all_teams():
                     team_list.append(name)
                     file.write(name + "\n")
     return team_list
-    
 
+
+def get_team(leagueID, season=2022):
+    url = "https://api-football-v1.p.rapidapi.com/v3/teams"
+    params = {"league": leagueID, "season": season}
+    response = requests.request("GET", url, headers=get_header(), params=params)
+    teamsInfo = json.loads(response.text)
+    return teamsInfo['response']
+
+
+def parse_team_list(team_data):
+    team_list = []
+    for team in team_data:
+        team_list.append(team["team"])
+    return team_list
+    
+    
 def get_header():
     k = getKey("api_key.json")
     h = createHeader()
