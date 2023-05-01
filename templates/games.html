@@ -26,24 +26,32 @@
 		<div id="gamesList">
 		</div>
 		<script type="text/javascript">
-			let games = {{all_games|tojson}};
-			games_html = "";
-			games.forEach(league=>{
-				games_html += `
-					<div class="league-container">
-					<h2>${league["league_name"]}</h2>
-				`;
-				league['games'].forEach(game => {
+			const displayFutureGames = (all_games) => {
+				let games = all_games;
+				games_html = "";
+				let i = 0;
+				while (games.length > i) {
+					const league = games[i]
 					games_html += `
-						<h4>${game["date"]}</h4>
-						<a href="/game/${game["id"]}">${game["team_one"]} vs ${game["team_two"]}</a>
-						<br />
-					`;
-				})
-				games_html += "</div>"
-			})
-			document.querySelector("#gamesList").innerHTML = games_html;
-
+					<div class="league-container">
+						<h2>${league["league_name"]}</h2>
+						`;
+						let j = 0;
+						while (league['games'].length > j) {
+							const game = league['games'][j];
+							games_html += `
+							<h4>${game["date"]}</h4>
+							<a href="/game/${game["id"]}">${game["team_one"]} vs ${game["team_two"]}</a>
+							<br />
+							`;
+							j++;
+						}
+						games_html += "</div>"
+						i++;
+					}
+					document.querySelector("#gamesList").innerHTML = games_html;
+			}
+			displayFutureGames({{ all_games|tojson }});
 		</script>
 	</body>
 </html>

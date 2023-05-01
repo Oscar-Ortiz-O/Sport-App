@@ -1,5 +1,6 @@
 import requests
 import json
+import helpers
 from datetime import datetime
 
 
@@ -74,7 +75,7 @@ def getGames(headers, leagueID, season=2022, last=5):
 
 # Returns future games for current season within a league
 def getFutureGames(headers, leagueID):
-    if headers == None or leagueID == -1 or leagueID == None:
+    if headers == None or headers == "" or leagueID == -1 or leagueID == None:
         return None
     url = "https://api-football-v1.p.rapidapi.com/v3/fixtures"
     params = {"league": leagueID, "season": 2022,
@@ -82,7 +83,7 @@ def getFutureGames(headers, leagueID):
 
     response = requests.request("GET", url, headers=headers, params=params)
     gameInfo = json.loads(response.text)
-    return gameInfo['response']
+    return helpers.formatFutureGames(gameInfo['response'])
 
 
 # Returns id of a league given the league name and country
