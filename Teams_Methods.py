@@ -44,7 +44,10 @@ def formatTeams(leagueID, season):
     for team in teams:
         newFormat = {'name': team['team']['name'],
                      'id': team['team']['id'],
-                     'country': team['team']['country']}
+                     'country': team['team']['country'],
+                     'image':team['team']['logo'],
+                     'founded': team['team']['founded'],
+                     'venue': team['venue']['name']}
         newTeams.append(newFormat)
     return newTeams
     
