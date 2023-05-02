@@ -6,16 +6,18 @@ import helpers
 import json, requests
 import subprocess
 from werkzeug.security import generate_password_hash
-from auth import validate_email, email_in_use, same_username, valid_user_pswd_combination, create_session, valid_session, log_out
+from auth import *
 import uuid
 import secretKey as sk
 
 app = Flask(__name__)
 app.secret_key = sk.secretKey
 
-@app.route('/')
+@app.route('/Home', methods=['GET','POST'])
 def index():
-    return render_template('splash.html')
+    if valid_session():
+        return render_template('splash.html')
+    return render_template('login.html')
 
 
 @app.route('/teams/')
@@ -78,7 +80,7 @@ def favorite_conf_page():
     return render_template('favorite_confirm.html')
 
 #Auth
-@app.route('/LogIn/', methods=['GET','POST'])
+@app.route('/', methods=['GET','POST'])
 def login():
     # Check if there is a valid session
     if valid_session():
