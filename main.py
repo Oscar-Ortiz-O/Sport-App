@@ -15,9 +15,14 @@ app.secret_key = sk.secretKey
 
 @app.route('/Home', methods=['GET','POST'])
 def index():
+    # Check if there is a valid session
     if valid_session():
-        return render_template('splash.html')
-    return render_template('login.html')
+        # Get the username
+        username = get_username()
+        # Return the view with the respective username
+        return render_template('splash.html', username=username)
+    # Return to login since no current session
+    return redirect(url_for('login'))
 
 
 @app.route('/teams/')

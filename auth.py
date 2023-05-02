@@ -89,10 +89,7 @@ def log_out():
       session.pop('username', None)
    return
 
-
-
-
-
-
-
+def get_username():
+   # Return the username of the current session
+   return session['username']
 
