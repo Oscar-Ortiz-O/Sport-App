@@ -6,9 +6,6 @@ def getTeamIds(headers, leagueID, season=2022):
     teamIds = [team['team']['id'] for team in teams]
     return teamIds
 
-Ids = getTeamIds(header, 140)
-print(Ids)
-
 
 teams = getTeams(header, 140, season=2022)
 def getOldestTeams(teams, headers, leagueID, season=2022):
@@ -22,9 +19,6 @@ def getOldestTeams(teams, headers, leagueID, season=2022):
 
     return oldestTeams
 
-oldest_teams = getOldestTeams(teams, header, 140)
-print(oldest_teams)
-
 
 teams = getTeams(header, 140, season=2022)
 def getYoungestTeams(teams, headers, leagueID, season=2022):
@@ -37,8 +31,6 @@ def getYoungestTeams(teams, headers, leagueID, season=2022):
         youngestTeams.append(team['team']['id'])
     return youngestTeams
 
-youngest_teams = getYoungestTeams(teams, header, 140)
-print(youngest_teams)
 
 
 def formatTeams(leagueID, season):
@@ -56,8 +48,6 @@ def formatTeams(leagueID, season):
         newTeams.append(newFormat)
     return newTeams
     
-format_teams = formatTeams(140, 2022)
-print(format_teams)
 
 #def test_getOldestTeams():
     # Test case 1: empty header and league ID

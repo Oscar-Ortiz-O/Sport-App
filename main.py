@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, Response
 import soccer_data as sd
+from Teams_Methods import *
 import helpers
 import json, requests
 import subprocess
@@ -18,7 +19,8 @@ def index():
 
 @app.route('/teams/')
 def teamsPage():
-    return render_template('teams.html')
+    teams = formatTeams(140, 2022)
+    return render_template('teams.html', teams = teams)
 
 
 @app.route('/players/')
