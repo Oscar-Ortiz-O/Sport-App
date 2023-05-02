@@ -65,12 +65,3 @@ def topFiveGoals(standings):
         
     return topFive
     
-
-# USE THIS TO GET THE HEADER
-key = getKey("api_key.json")
-header = createHeader()
-info = getStandings(header, 140, 2022)
-
-results = info['standings'][0]
-
-print(info)

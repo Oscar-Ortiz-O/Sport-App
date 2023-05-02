@@ -8,6 +8,23 @@
 	{% endblock %}
 
 	{% block body %}
+	
+		<div class="container" style="display: flex; justify-content: center; align-items: center;">
+			<div class="row" align="center" >
+				<ol class="list-group" style="width: 18rem; padding:5px; left: 50%;">
+					<li class="list-group-item active">Top 5 Teams by Rank</li>
+					{% for team in rankStanding %}
+					<li class="list-group-item">{{team['name']}}</li>
+					{% endfor %}
+				</ol>
+				<ol class="list-group" style="width: 18rem; padding:5px; left: 50%;">
+					<li class="list-group-item active">Top 5 Teams by Goals</li>
+					{% for team in goalStanding %}
+					<li class="list-group-item">{{team['name']}}</li>
+					{% endfor %}
+				</ol>
+			</div>
+		</div>
 
 		<div class="container">
 			<div class="row" align="center">

@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for, Response
 import soccer_data as sd
 from Teams_Methods import *
+from standings import *
 import helpers
 import json, requests
 import subprocess
@@ -19,8 +20,14 @@ def index():
 
 @app.route('/teams/')
 def teamsPage():
+    
     teams = formatTeams(140, 2022)
-    return render_template('teams.html', teams = teams)
+    rankStanding = topFiveStandings(formatStandings(140, 2022))
+
+    standingTeams = getStandings(createHeader(), 140, 2022)['standings'][0]
+    goalStanding = topFiveGoals(standingTeams)
+    
+    return render_template('teams.html', teams = teams, rankStanding = rankStanding, goalStanding = goalStanding)
 
 
 @app.route('/players/')
