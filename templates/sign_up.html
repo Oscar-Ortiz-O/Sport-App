@@ -6,8 +6,21 @@
 		<meta name="keywords" content="html tutorial template">
       <link rel="stylesheet" href="/static/css/login_signup.css">
 	</head>
-	<body class="center">
-      <div class="border">
+	<body>
+
+      <div>
+         {% with messages = get_flashed_messages(with_categories=true) %}
+         {% if messages %}
+            {% for category, message in messages %}
+            <div class="error_msg alert alert-danger alter-dismissable fade show" role="alert">
+              {{ message }}
+            </div>
+            {% endfor %}
+         {% endif %}
+         {% endwith %}
+      </div>
+
+      <div class="border center">
          <form method="POST">
             <h1 align="center">Sign Up</h1>
             <div class="form-group">
