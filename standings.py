@@ -42,7 +42,7 @@ def topFiveGoals(standings):
 
 # USE THIS TO GET THE HEADER
 key = getKey("api_key.json")
-header = createHeader(key)
+header = createHeader()
 info = getStandings(header, 140, 2022)
 
 
