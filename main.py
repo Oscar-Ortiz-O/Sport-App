@@ -1,24 +1,35 @@
 from flask import Flask, render_template, request, redirect, url_for, Response
 import soccer_data as sd
+from Teams_Methods import *
+from standings import *
 import helpers
 import json, requests
 import subprocess
 from werkzeug.security import generate_password_hash
-from auth import validate_email, email_in_use, same_username, valid_user_pswd_combination, create_session, valid_session, log_out
+from auth import *
 import uuid
 import secretKey as sk
 
 app = Flask(__name__)
 app.secret_key = sk.secretKey
 
-@app.route('/')
+@app.route('/Home', methods=['GET','POST'])
 def index():
-    return render_template('splash.html')
+    if valid_session():
+        return render_template('splash.html')
+    return render_template('login.html')
 
 
 @app.route('/teams/')
 def teamsPage():
-    return render_template('teams.html')
+    
+    teams = formatTeams(140, 2022)
+    rankStanding = topFiveStandings(formatStandings(140, 2022))
+
+    standingTeams = getStandings(createHeader(), 140, 2022)['standings'][0]
+    goalStanding = topFiveGoals(standingTeams)
+    
+    return render_template('teams.html', teams = teams, rankStanding = rankStanding, goalStanding = goalStanding)
 
 
 @app.route('/players/')
@@ -45,10 +56,21 @@ def gamesPage():
 def individualGamePage(id):
     return render_template('game.html', id=id)
 
+@app.route('/search_favorite/', methods=['GET', 'POST'])
+def search_favorite_page():
+    if request.method == 'POST':
+        lid = request.form.get("lid")
+        year = request.form.get("year")
+        return redirect(url_for(".favorite_page", year=year, lid=lid))
+    return render_template('search_favorite.html')
+
 @app.route('/favorite/')
 def favorite_page():
-    team_list = sd.getTeams(sd.header, 140)
-    return render_template('favorite.html', team_list=team_list)
+    lid = request.args.get('lid')
+    year = request.args.get('year')
+    team_list = sd.parse_team_list(sd.get_team(lid, year))
+    print(sd.get_team(lid, year))
+    return render_template('favorite.html', data=team_list)
 
 
 @app.route('/favorite_confirm/', methods=['GET'])
@@ -58,7 +80,7 @@ def favorite_conf_page():
     return render_template('favorite_confirm.html')
 
 #Auth
-@app.route('/LogIn/', methods=['GET','POST'])
+@app.route('/', methods=['GET','POST'])
 def login():
     # Check if there is a valid session
     if valid_session():

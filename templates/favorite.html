@@ -5,34 +5,51 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Favorite</title>
+    <title>Table</title>
     <link rel="stylesheet" href="/static/css/favorite.css">
 </head>
 <body>
-    <h1>Select Favorite Team</h1>
-    <div class="listBlock">
+<table id="myTable">
+    <tr>
+        <th>Name</th>
+        <th>Country</th>
+    </tr>
+</table>
+<script>
+    var teams = {{data|tojson}};
+    teams.forEach(createTable);
 
-    </div>
-    <script type="text/javascript">
-        //Get "team_list" parameter from flask call
-        let teamList = {{team_list|tojson}};
+    function createTable(objj){
+        // Get the table body element in which you want to add row
+        let table = document.getElementById("myTable");
 
-        //Get HTML "listBlock" element for modifying
-        let listBlock = document.querySelector(".listBlock");
+        // Create row element
+        let row = document.createElement("tr")
 
-        //Iterate through each JSON object in Python list
-        teamList.forEach(createTeamNameList);
+        // Create cells
+        let c1 = document.createElement("td")
+        let c2 = document.createElement("td")
+        let c3 = document.createElement("td")
 
-        //Parse through JSON "team" object and append names to list object
-        function createTeamNameList(teamJSONArray){
-            let name = document.createElement("a");
-            let br = document.createElement("br");
-            var teamName = String(teamJSONArray.team.name);
-            name.textContent = teamName;
-            name.setAttribute('href', "/favorite_confirm?team_name="+teamName);
-            listBlock.appendChild(name);
-            listBlock.appendChild(br);
-        }
-    </script>
+        var a = document.createElement('a');
+        var linkText = document.createTextNode("Select");
+        a.appendChild(linkText);
+        a.title = "Favorite";
+        a.href = "/favorite_confirm?team_name="+objj["name"];
+        c3.appendChild(a)
+
+        // Insert data to cells
+        c1.innerText = objj["name"];
+        c2.innerText = objj["country"];
+
+        // Append cells to row
+        row.appendChild(c1);
+        row.appendChild(c2);
+        row.appendChild(c3);
+
+        // Append row to table body
+        table.appendChild(row)
+    }
+</script>
 </body>
 </html>

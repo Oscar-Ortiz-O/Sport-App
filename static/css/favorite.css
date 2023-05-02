@@ -1,3 +1,8 @@
 h1, .listBlock{
   font-family: Arial;
 }
+
+#myTable, td, tr, th{
+  border: 1px solid;
+  font-family: Arial;
+}

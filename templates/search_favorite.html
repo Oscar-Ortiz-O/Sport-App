@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Search Favorite</title>
+    <link rel="stylesheet" href="/static/css/search_favorite.css">
+</head>
+<body>
+<h1>Select League ID and Season Year</h1>
+<form action="{{url_for('search_favorite_page')}}" method="post">
+  <label for="lid">League ID:</label><br>
+  <input type="text" id="lid" name="lid"><br><br>
+  <label for="year">Year:</label><br>
+  <input type="text" id="year" name="year"><br>
+  <input type="submit" value="Submit">
+</form>
+</body>
+</html>
