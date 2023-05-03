@@ -46,11 +46,11 @@ def playersPage(teamID):
 @app.route('/games/')
 def gamesPage():
     leagues_information = [
-        {"league_name": "La Liga", "id": sd.getLeagueID(headers=sd.header, country="Spain", name="La Liga")},
-        {"league_name":"Premier League", "id":sd.getLeagueID(headers=sd.header, country="England", name="Premier League")},
-        {"league_name":"Bundesliga", "id":sd.getLeagueID(headers=sd.header, country="Germany", name="Bundesliga")},
-        {"league_name":"Serie A", "id":sd.getLeagueID(headers=sd.header, country="Italy", name="Serie A")},
-        {"league_name":"Ligue 1", "id":sd.getLeagueID(headers=sd.header, country="France", name="Ligue 1")},
+        {"league_name": "La Liga", "id": 140},
+        {"league_name":"Premier League", "id": 39},
+        {"league_name":"Bundesliga", "id": 78},
+        {"league_name":"Serie A", "id": 135},
+        {"league_name":"Ligue 1", "id": 61},
     ]
     all_games_info = []
     for league in leagues_information:
