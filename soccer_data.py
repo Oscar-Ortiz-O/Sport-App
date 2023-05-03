@@ -83,8 +83,7 @@ def getFutureGames(headers, leagueID):
 
     response = requests.request("GET", url, headers=headers, params=params)
     gameInfo = json.loads(response.text)
-    return helpers.formatFutureGames(gameInfo['response'])
-
+    return gameInfo['response']
 
 # Returns id of a league given the league name and country
 def getLeagueID(headers, name, country):
