@@ -7,6 +7,7 @@ from werkzeug.security import generate_password_hash
 from auth import validate_email, email_in_use, same_username, valid_user_pswd_combination, create_session, valid_session, log_out
 import uuid
 import secretKey as sk
+from datetime import date as dt
 
 app = Flask(__name__)
 app.secret_key = sk.secretKey
@@ -35,15 +36,31 @@ def gamesPage():
         {"league_name":"Serie A", "id":sd.getLeagueID(headers=sd.header, country="Italy", name="Serie A")},
         {"league_name":"Ligue 1", "id":sd.getLeagueID(headers=sd.header, country="France", name="Ligue 1")},
     ]
-    all_games = []
+    all_games_info = []
     for league in leagues_information:
         future_games = sd.getFutureGames(sd.header, league["id"])
-        all_games.append({"league_name": league["league_name"], "games": future_games})
-    return render_template('games.html', all_games=all_games)
+        all_games_info += future_games
+    formatted_games = helpers.formatFutureGames(all_games_info)
+    return render_template('games.html', all_games=formatted_games)
 
 @app.route('/game/<id>')
 def individualGamePage(id):
-    return render_template('game.html', id=id)
+    if (id is None):
+        return render_template("games.html")
+    response = sd.getGameInfo(sd.header, id)
+    response = response[0]
+    game_info = {
+        'referee': response['fixture']['referee'],
+        'date': str(dt.fromtimestamp(response['fixture']['timestamp'])),
+        'city': response['fixture']['venue']['city'],
+        'stadium': response['fixture']['venue']['name'],
+        'league': response['league']['name'],
+        'home': response['teams']['home']['name'],
+        'home_logo': response['teams']['home']['logo'],
+        'away': response['teams']['away']['name'],
+        'away_logo': response['teams']['away']['logo'],
+    }
+    return render_template('game.html', game_info=game_info)
 
 @app.route('/search_favorite/', methods=['GET', 'POST'])
 def search_favorite_page():

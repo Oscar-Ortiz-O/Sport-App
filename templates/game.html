@@ -1,17 +1,70 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Game Information</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
+        integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
 </head>
+
 <body>
-    <h1>Individual Game ID: <span id="gameID"></span></h1>
-    USE THE ID TO GET THE GAME INFORMATION
+    <style>
+        .teams {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            align-items: center;
+        }
+        .teams img {
+            height: 3em;
+        }
+        .game-info {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+    </style>
+    <div class="container mt-5">
+        <div id="game-container">
+            <div class="teams" id="teams">
+                <img src="https://media-3.api-sports.io/football/teams/50.png" alt="">
+                <h2>Barcelona</h2>
+                <h2>VS</h2>
+                <h2>Real Madrid</h2>
+                <img src="https://media-3.api-sports.io/football/teams/50.png" alt="">
+            </div>
+            <div class="game-info">
+                <h3>Date</h3>
+                <h3>City</h3>
+                <h3>Venue</h3>
+                <h3>Referee</h3>
+            </div>
+        </div>
+        <a class="btn btn-primary mx-auto d-block mt-2" style="width: 15%" href="/games">Back to All Games</a>
+    </div>
     <script>
-        let id = {{id|tojson}};
-        document.querySelector("#gameID").innerHTML = id;
+        const gameInfo = {{ game_info| tojson }};
+        const gameContainer = document.querySelector("#game-container");
+        gameContainer.innerHTML = `
+        <div class="teams" id="teams">
+            <img src="${gameInfo["home_logo"]}" alt="">
+            <h2>${gameInfo["home"]}</h2>
+            <h2>VS</h2>
+            <h2>${gameInfo["away"]}</h2>
+            <img src="${gameInfo["away_logo"]}" alt="">
+        </div>
+        <div class="game-info">
+            <h4>Date: ${gameInfo["date"]}</h4>
+            <h4>City: ${gameInfo["city"]}</h4>
+            <h4>Venue: ${gameInfo["stadium"]}</h4>
+            <h4>Referee: ${gameInfo["referee"]}</h4>
+        </div>
+        `;
+
     </script>
 </body>
+
 </html>
