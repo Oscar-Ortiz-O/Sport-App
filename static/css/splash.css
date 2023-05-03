@@ -4,11 +4,15 @@ li a {
    padding-top: 2px;
    padding-bottom: 2px;
 }
+ul{
+	padding: 2px;
+	margin-left: 15%;
+	margin-right: 15%;
+}
 .list {
    list-style: none;
    display: flex;
-   align-items: center;
-   gap: 50px;
+   gap: 75px;
 }
 .link {
    position: relative;
