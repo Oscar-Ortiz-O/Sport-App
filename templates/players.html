@@ -1,11 +1,44 @@
-﻿<!doctype html>
+﻿{% extends 'shell.html'%}
+
+<!doctype html>
 <html>
-	<head>
-		<title>Our Funky HTML Page</title>
-		<meta name="description" content="Our first page">
-		<meta name="keywords" content="html tutorial template">
-	</head>
-	<body>
-		Content goes here.
-	</body>
+	{% block head %}
+	<head data-address-tag="players"></head>
+	{% endblock %}
+
+	{% block body %}
+	
+	<div class="container" style="display: flex; justify-content: center; align-items: center;">
+		<h1>Players in Team</h1>
+	</div>
+	<div class="container" style="display: flex; justify-content: center; align-items: center;">
+		<a class="btn btn-primary my-3" href="/" style="margin: 5px;">Home</a>
+		<a class="btn btn-primary my-3" href="/games">Search Games</a>
+		<a class="btn btn-primary my-3" href="/teams" style="margin: 5px;">Return to Teams</a>
+	</div>
+
+		<div class="container">
+			<div class="row" align="center">
+				<div class="row row-cols-1 row-cols-md-3 g-4">
+				{% for player in players %}
+					<div class="col-sm-4">
+						<div class="card" style="width: 18rem; padding:5px; display:inline-block">
+							<img src="{{player['image']}}" alt="logo" class="card-img-top">
+							<div class="card-body">
+								<h5 class="card-title"> {{player['name']}} </h5>
+							</div>
+							<ul class="list-group list-group-flush">
+								<li class="list-group-item">ID: {{player['id']}}</li>
+								<li class="list-group-item">Age: {{player['age']}}</li>
+								<li class="list-group-item">Position: {{player['position']}}</li>
+								<li class="list-group-item">Goals: {{player['goals']}}</li>
+							</ul>
+						</div>
+					</div>
+				{% endfor %}
+
+				</div>
+
+
+	{% endblock %}
 </html>

@@ -2,12 +2,10 @@ from flask import Flask, render_template, request, redirect, url_for, Response, 
 import soccer_data as sd
 from Teams_Methods import *
 from standings import *
-import helpers
-import json, requests
-import subprocess
+from players import *
+import json, requests, subprocess, helpers, uuid
 from werkzeug.security import generate_password_hash
 from auth import *
-import uuid
 import secretKey as sk
 from datetime import date as dt
 
@@ -38,9 +36,11 @@ def teamsPage():
     return render_template('teams.html', teams = teams, rankStanding = rankStanding, goalStanding = goalStanding)
 
 
-@app.route('/players/')
-def playersPage():
-    return render_template('players.html')
+@app.route('/players/<teamID>')
+def playersPage(teamID):
+
+    players = playersByTeam(createHeader(), teamID, 2022)
+    return render_template('players.html', teamID = teamID, players = players)
 
 
 @app.route('/games/')
