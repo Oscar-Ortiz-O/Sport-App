@@ -114,7 +114,7 @@ def set_favorite_team(team_name):
     team_name_dict = {"team name": team_name}
     json_object = json.dumps(team_name_dict, indent=4)
 
-    with open("favorite.json", "w+") as JSON_file:
+    with open("data/favorite.json", "w+") as JSON_file:
         JSON_file.write(json_object)
 
 
@@ -122,7 +122,7 @@ def set_favorite_team(team_name):
 # Author: Mark
 def get_favorite_team():
     try:
-        with open("favorite.json", "r") as JSON_file:
+        with open("data/favorite.json", "r") as JSON_file:
             team_name_dict = json.load(JSON_file)
             team_name = team_name_dict["team name"]
     except FileNotFoundError:
@@ -148,8 +148,23 @@ def list_all_teams():
                     team_list.append(name)
                     file.write(name + "\n")
     return team_list
-    
 
+
+def get_team(leagueID, season=2022):
+    url = "https://api-football-v1.p.rapidapi.com/v3/teams"
+    params = {"league": leagueID, "season": season}
+    response = requests.request("GET", url, headers=get_header(), params=params)
+    teamsInfo = json.loads(response.text)
+    return teamsInfo['response']
+
+
+def parse_team_list(team_data):
+    team_list = []
+    for team in team_data:
+        team_list.append(team["team"])
+    return team_list
+    
+    
 def get_header():
     k = getKey("api_key.json")
     h = createHeader()
