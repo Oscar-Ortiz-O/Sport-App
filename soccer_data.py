@@ -162,8 +162,22 @@ def parse_team_list(team_data):
     for team in team_data:
         team_list.append(team["team"])
     return team_list
-    
-    
+
+
+def add_fav_team(name, fav_list):
+    if len(fav_list) < 5:
+        if name not in fav_list:
+            fav_list.append(name)
+        else:
+            print("You Already Like This Team!")
+    else:
+        print("You Can Only Have 5 Favorite Teams!")
+    json_object = json.dumps(fav_list, indent=2)
+    with open("my_fav_teams.json", "w+") as file:
+        file.write(json_object)
+    return fav_list
+
+
 def get_header():
     k = getKey("api_key.json")
     h = createHeader()
@@ -173,4 +187,3 @@ def get_header():
 # USE THIS TO GET THE HEADER
 key = getKey("api_key.json")
 header = createHeader()
-
