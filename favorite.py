@@ -23,7 +23,7 @@ class Favorite:
 
     @staticmethod
     def create_teams_json():
-        for id in range(90, 200):
+        for id in range(124, 200):
             try:
                 data = Favorite.get_teams_from_api(id, 2022)
             except KeyError:
@@ -32,6 +32,21 @@ class Favorite:
             if data:
                 data = Favorite.parse_team_data(data)
                 Favorite.add_to_json("teams", data)
+
+    @staticmethod
+    def get_team_names_list():
+        tn_list = []
+        t_dict = Favorite.get_json("teams")
+        for key in t_dict:
+            tn_list.append(key)
+        return tn_list
+
+    @staticmethod
+    def get_team_names_list(t_dict):
+        tn_list = []
+        for key in t_dict:
+            tn_list.append(key)
+        return tn_list
 
     @staticmethod
     def parse_team_data(data):
@@ -54,3 +69,7 @@ class Favorite:
         with open("data/" + path + ".json", 'r') as file:
             json_dict = json.load(file)
         return json_dict
+
+
+if __name__ == '__main__':
+    Favorite.create_teams_json()

@@ -8,6 +8,7 @@ from werkzeug.security import generate_password_hash
 from auth import *
 import secretKey as sk
 from datetime import date as dt
+from favorite import Favorite as f
 
 app = Flask(__name__)
 app.secret_key = sk.secretKey
@@ -90,15 +91,14 @@ def search_favorite_page():
 def favorite_page():
     lid = request.args.get('lid')
     year = request.args.get('year')
-    team_list = sd.parse_team_list(sd.get_team(lid, year))
-    print(sd.get_team(lid, year))
+    team_list = f.get_teams_from_api(lid, year)
     return render_template('favorite.html', data=team_list)
 
 
 @app.route('/favorite_confirm/', methods=['GET'])
 def favorite_conf_page():
     team_name = request.args.get('team_name')
-    sd.set_favorite_team(team_name)
+    f.set_json("favorite", team_name)
     return render_template('favorite_confirm.html')
 
 #Auth

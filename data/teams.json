@@ -547,7 +547,7 @@
    "country": "Japan",
    "founded": 2001,
    "national": false,
-   "logo": "https://media-3.api-sports.io/football/teams/297.png"
+   "logo": "https://media-1.api-sports.io/football/teams/297.png"
   },
   "venue": {
    "id": 958,
@@ -607,7 +607,7 @@
    "country": "Norway",
    "founded": 1908,
    "national": false,
-   "logo": "https://media-2.api-sports.io/football/teams/319.png"
+   "logo": "https://media-3.api-sports.io/football/teams/319.png"
   },
   "venue": {
    "id": 1176,
@@ -616,7 +616,7 @@
    "city": "Bergen",
    "capacity": 17686,
    "surface": "grass",
-   "image": "https://media-2.api-sports.io/football/venues/1176.png"
+   "image": "https://media-3.api-sports.io/football/venues/1176.png"
   }
  },
  "Miedz Legnica": {
@@ -627,7 +627,7 @@
    "country": "Poland",
    "founded": 1971,
    "national": false,
-   "logo": "https://media-2.api-sports.io/football/teams/335.png"
+   "logo": "https://media-1.api-sports.io/football/teams/335.png"
   },
   "venue": {
    "id": 1254,
@@ -647,7 +647,7 @@
    "country": "Poland",
    "founded": 1906,
    "national": false,
-   "logo": "https://media-2.api-sports.io/football/teams/338.png"
+   "logo": "https://media-1.api-sports.io/football/teams/338.png"
   },
   "venue": {
    "id": 1258,
@@ -667,7 +667,7 @@
    "country": "Poland",
    "founded": 1921,
    "national": false,
-   "logo": "https://media-2.api-sports.io/football/teams/3485.png"
+   "logo": "https://media-1.api-sports.io/football/teams/3485.png"
   },
   "venue": {
    "id": 2286,
@@ -676,7 +676,7 @@
    "city": "Krak\u00f3w",
    "capacity": 4000,
    "surface": "grass",
-   "image": "https://media-2.api-sports.io/football/venues/2286.png"
+   "image": "https://media-3.api-sports.io/football/venues/2286.png"
   }
  },
  "Aberystwyth Town": {
@@ -707,7 +707,7 @@
    "country": "Wales",
    "founded": 2013,
    "national": false,
-   "logo": "https://media-2.api-sports.io/football/teams/355.png"
+   "logo": "https://media-1.api-sports.io/football/teams/355.png"
   },
   "venue": {
    "id": 1857,
@@ -716,7 +716,7 @@
    "city": "Llanelli, Carmarthenshire",
    "capacity": 3700,
    "surface": "grass",
-   "image": "https://media-1.api-sports.io/football/venues/1857.png"
+   "image": "https://media-3.api-sports.io/football/venues/1857.png"
   }
  },
  "Hammarby FF": {
@@ -727,7 +727,7 @@
    "country": "Sweden",
    "founded": 1897,
    "national": false,
-   "logo": "https://media-3.api-sports.io/football/teams/363.png"
+   "logo": "https://media-1.api-sports.io/football/teams/363.png"
   },
   "venue": {
    "id": 1506,
@@ -756,7 +756,7 @@
    "city": "\u00d6rebro",
    "capacity": 14500,
    "surface": "artificial turf",
-   "image": "https://media-1.api-sports.io/football/venues/1521.png"
+   "image": "https://media-2.api-sports.io/football/venues/1521.png"
   }
  },
  "FC Slutsk": {
@@ -776,7 +776,7 @@
    "city": "Slutsk",
    "capacity": 2150,
    "surface": "grass",
-   "image": "https://media-2.api-sports.io/football/venues/169.png"
+   "image": "https://media-3.api-sports.io/football/venues/169.png"
   }
  },
  "Naftan": {
@@ -807,7 +807,7 @@
    "country": "Belarus",
    "founded": 1947,
    "national": false,
-   "logo": "https://media-3.api-sports.io/football/teams/383.png"
+   "logo": "https://media-1.api-sports.io/football/teams/383.png"
   },
   "venue": {
    "id": 170,
@@ -827,7 +827,7 @@
    "country": "Denmark",
    "founded": 1999,
    "national": false,
-   "logo": "https://media-3.api-sports.io/football/teams/397.png"
+   "logo": "https://media-1.api-sports.io/football/teams/397.png"
   },
   "venue": {
    "id": 453,
@@ -836,7 +836,7 @@
    "city": "Herning",
    "capacity": 11809,
    "surface": "grass",
-   "image": "https://media-3.api-sports.io/football/venues/453.png"
+   "image": "https://media-1.api-sports.io/football/venues/453.png"
   }
  },
  "Vejle": {
@@ -876,7 +876,7 @@
    "city": "Esbjerg",
    "capacity": 18000,
    "surface": "grass",
-   "image": "https://media-1.api-sports.io/football/venues/445.png"
+   "image": "https://media-2.api-sports.io/football/venues/445.png"
   }
  },
  "B 1908": {
@@ -1796,7 +1796,127 @@
    "city": "Zwolle",
    "capacity": 14000,
    "surface": "artificial turf",
-   "image": "https://media-2.api-sports.io/football/venues/1160.png"
+   "image": "https://media-1.api-sports.io/football/venues/1160.png"
+  }
+ },
+ "ADO Den Haag W": {
+  "team": {
+   "id": 1894,
+   "name": "ADO Den Haag W",
+   "code": null,
+   "country": "Netherlands",
+   "founded": null,
+   "national": false,
+   "logo": "https://media-1.api-sports.io/football/teams/1894.png"
+  },
+  "venue": {
+   "id": null,
+   "name": null,
+   "address": null,
+   "city": null,
+   "capacity": null,
+   "surface": null,
+   "image": null
+  }
+ },
+ "Dovo": {
+  "team": {
+   "id": 1234,
+   "name": "Dovo",
+   "code": null,
+   "country": "Netherlands",
+   "founded": 1933,
+   "national": false,
+   "logo": "https://media-2.api-sports.io/football/teams/1234.png"
+  },
+  "venue": {
+   "id": 1124,
+   "name": "Sportpark Panhuis (DOVO)",
+   "address": "Verlengde Sportlaan 5",
+   "city": "Veenendaal",
+   "capacity": 3200,
+   "surface": "artificial turf",
+   "image": "https://media-1.api-sports.io/football/venues/1124.png"
+  }
+ },
+ "Gemert": {
+  "team": {
+   "id": 1230,
+   "name": "Gemert",
+   "code": null,
+   "country": "Netherlands",
+   "founded": 1912,
+   "national": false,
+   "logo": "https://media-3.api-sports.io/football/teams/1230.png"
+  },
+  "venue": {
+   "id": 2863,
+   "name": "Sportpark Molenbroek",
+   "address": "Sportlaan 9",
+   "city": "Gemert",
+   "capacity": 6280,
+   "surface": "artificial turf",
+   "image": "https://media-3.api-sports.io/football/venues/2863.png"
+  }
+ },
+ "Benfica": {
+  "team": {
+   "id": 211,
+   "name": "Benfica",
+   "code": "BEN",
+   "country": "Portugal",
+   "founded": 1904,
+   "national": false,
+   "logo": "https://media-3.api-sports.io/football/teams/211.png"
+  },
+  "venue": {
+   "id": 1265,
+   "name": "Est\u00e1dio do Sport Lisboa e Benfica (da Luz)",
+   "address": "Rua Jos\u00e9 Maria Nicolau",
+   "city": "Lisboa",
+   "capacity": 65647,
+   "surface": "grass",
+   "image": "https://media-1.api-sports.io/football/venues/1265.png"
+  }
+ },
+ "Feirense": {
+  "team": {
+   "id": 213,
+   "name": "Feirense",
+   "code": "FEI",
+   "country": "Portugal",
+   "founded": 1918,
+   "national": false,
+   "logo": "https://media-2.api-sports.io/football/teams/213.png"
+  },
+  "venue": {
+   "id": 1277,
+   "name": "Est\u00e1dio Marcolino de Castro",
+   "address": "Avenida 25 de Abril 14",
+   "city": "Santa Maria da Feira",
+   "capacity": 5449,
+   "surface": "grass",
+   "image": "https://media-2.api-sports.io/football/venues/1277.png"
+  }
+ },
+ "V-varen Nagasaki": {
+  "team": {
+   "id": 285,
+   "name": "V-varen Nagasaki",
+   "code": "NAG",
+   "country": "Japan",
+   "founded": 1985,
+   "national": false,
+   "logo": "https://media-2.api-sports.io/football/teams/285.png"
+  },
+  "venue": {
+   "id": 981,
+   "name": "Transcosmos Stadium",
+   "address": null,
+   "city": "Isahaya",
+   "capacity": 20258,
+   "surface": "grass",
+   "image": "https://media-3.api-sports.io/football/venues/981.png"
   }
  }
 }
