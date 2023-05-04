@@ -19,87 +19,107 @@ def index():
     if valid_session():
         # Get the username
         username = get_username()
+        fav_team = get_fav_team()
         # Return the view with the respective username
-        return render_template('splash.html', username=username)
+        return render_template('splash.html', username=username, fav_team=fav_team)
     # Return to login since no current session
     return redirect(url_for('login'))
 
 
 @app.route('/teams/')
 def teamsPage():
-    
-    teams = formatTeams(140, 2022)
-    rankStanding = topFiveStandings(formatStandings(140, 2022))
+    if valid_session():
+        teams = formatTeams(140, 2022)
+        rankStanding = topFiveStandings(formatStandings(140, 2022))
 
-    standingTeams = getStandings(createHeader(), 140, 2022)['standings'][0]
-    goalStanding = topFiveGoals(standingTeams)
-    
-    return render_template('teams.html', teams = teams, rankStanding = rankStanding, goalStanding = goalStanding)
+        standingTeams = getStandings(createHeader(), 140, 2022)['standings'][0]
+        goalStanding = topFiveGoals(standingTeams)
+        
+        return render_template('teams.html', teams = teams, rankStanding = rankStanding, goalStanding = goalStanding)
+    else:
+        return redirect(url_for('index'))
 
 
 @app.route('/players/<teamID>')
 def playersPage(teamID):
-
-    players = playersByTeam(createHeader(), teamID, 2022)
-    return render_template('players.html', teamID = teamID, players = players)
+    if valid_session():
+        players = playersByTeam(createHeader(), teamID, 2022)
+        return render_template('players.html', teamID = teamID, players = players)
+    else:
+        return redirect(url_for('index'))
 
 
 @app.route('/games/')
 def gamesPage():
-    leagues_information = [
-        {"league_name": "La Liga", "id": 140},
-        {"league_name":"Premier League", "id": 39},
-        {"league_name":"Bundesliga", "id": 78},
-        {"league_name":"Serie A", "id": 135},
-        {"league_name":"Ligue 1", "id": 61},
-    ]
-    all_games_info = []
-    for league in leagues_information:
-        future_games = sd.getFutureGames(sd.header, league["id"])
-        all_games_info += future_games
-    formatted_games = helpers.formatFutureGames(all_games_info)
-    return render_template('games.html', all_games=formatted_games)
+    if valid_session():
+        leagues_information = [
+            {"league_name": "La Liga", "id": 140},
+            {"league_name":"Premier League", "id": 39},
+            {"league_name":"Bundesliga", "id": 78},
+            {"league_name":"Serie A", "id": 135},
+            {"league_name":"Ligue 1", "id": 61},
+        ]
+        all_games_info = []
+        for league in leagues_information:
+            future_games = sd.getFutureGames(sd.header, league["id"])
+            all_games_info += future_games
+        formatted_games = helpers.formatFutureGames(all_games_info)
+        return render_template('games.html', all_games=formatted_games)
+    else:
+        return redirect(url_for('index'))
 
 @app.route('/game/<id>')
 def individualGamePage(id):
-    if (id is None):
-        return render_template("games.html")
-    response = sd.getGameInfo(sd.header, id)
-    response = response[0]
-    game_info = {
-        'referee': response['fixture']['referee'],
-        'date': str(dt.fromtimestamp(response['fixture']['timestamp'])),
-        'city': response['fixture']['venue']['city'],
-        'stadium': response['fixture']['venue']['name'],
-        'league': response['league']['name'],
-        'home': response['teams']['home']['name'],
-        'home_logo': response['teams']['home']['logo'],
-        'away': response['teams']['away']['name'],
-        'away_logo': response['teams']['away']['logo'],
-    }
-    return render_template('game.html', game_info=game_info)
+    if valid_session():
+        if (id is None):
+            return render_template("games.html")
+        response = sd.getGameInfo(sd.header, id)
+        response = response[0]
+        game_info = {
+            'referee': response['fixture']['referee'],
+            'date': str(dt.fromtimestamp(response['fixture']['timestamp'])),
+            'city': response['fixture']['venue']['city'],
+            'stadium': response['fixture']['venue']['name'],
+            'league': response['league']['name'],
+            'home': response['teams']['home']['name'],
+            'home_logo': response['teams']['home']['logo'],
+            'away': response['teams']['away']['name'],
+            'away_logo': response['teams']['away']['logo'],
+        }
+        return render_template('game.html', game_info=game_info)
+    else:
+        return redirect(url_for('index'))
 
 @app.route('/search_favorite/', methods=['GET', 'POST'])
 def search_favorite_page():
-    if request.method == 'POST':
-        lid = request.form.get("lid")
-        year = request.form.get("year")
-        return redirect(url_for(".favorite_page", year=year, lid=lid))
-    return render_template('search_favorite.html')
+    if valid_session():
+        if request.method == 'POST':
+            lid = request.form.get("lid")
+            year = request.form.get("year")
+            return redirect(url_for(".favorite_page", year=year, lid=lid))
+        return render_template('search_favorite.html')
+    else:
+        return redirect(url_for('index'))
 
 @app.route('/favorite/')
 def favorite_page():
-    lid = request.args.get('lid')
-    year = request.args.get('year')
-    team_list = f.get_teams_from_api(lid, year)
-    return render_template('favorite.html', data=team_list)
-
+    if valid_session():
+        lid = request.args.get('lid')
+        year = request.args.get('year')
+        team_list = f.get_teams_from_api(lid, year)
+        return render_template('favorite.html', data=team_list)
+    else:
+        return redirect(url_for('index'))
 
 @app.route('/favorite_confirm/', methods=['GET'])
 def favorite_conf_page():
-    team_name = request.args.get('team_name')
-    f.set_json("favorite", team_name)
-    return render_template('favorite_confirm.html')
+    if valid_session():
+        team_name = request.args.get('team_name')
+        add_fav_user_team(team_name)
+        f.set_json("favorite", team_name)
+        return render_template('favorite_confirm.html')
+    else:
+        return redirect(url_for('index'))
 
 #Auth
 @app.route('/', methods=['GET','POST'])
