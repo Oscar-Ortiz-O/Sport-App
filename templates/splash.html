@@ -15,5 +15,8 @@
 				<li><a href="/Logout/" class="link">Logout</a></li>	
 			</ul>
 		</nav>
+		{% if fav_team %}
+		<div>Fav Team: {{ fav_team }}</div>
+		{% endif %}
 	</body>
 </html>

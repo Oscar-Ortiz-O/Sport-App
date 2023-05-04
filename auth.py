@@ -69,7 +69,7 @@ def create_session(email):
          session['email'] = users['user'][id]['email']
          session['username'] = users['user'][id]['username']
          # Adding fav team into session, if any
-         if 'fav_team' in session:
+         if 'fav_team' in users['user'][id]:
             session['fav_team'] = users['user'][id]['fav_team']
          return 1
    return 0
@@ -108,11 +108,18 @@ def add_fav_user_team(team):
          users = json.load(db)
       # Find the current session
       for id in users['user']:
-         # Adding the team to the database 
+         # Adding the team to the database and the current session
          if id == session['user_id']:
             users['user'][id]['fav_team'] = team
+            session['fav_team'] = team
       # Overwrite the json file
       with open("data/database.json", "w") as outfile:
          json.dump(users, outfile)
    else:
       print('no session implemented')
+
+def get_fav_team():
+   if valid_session():
+      if 'fav_team' in session:
+         return session['fav_team']
+   return ''
