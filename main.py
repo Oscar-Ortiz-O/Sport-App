@@ -20,8 +20,13 @@ def index():
         # Get the username
         username = get_username()
         fav_team = get_fav_team()
+        # If there is no fav team do not send to the template
+        if fav_team == '':
+            return render_template('splash.html', username=username)
+        # Else send fav team to the template
+        team_info = sd.getTeamInfoByName(sd.header, fav_team)
         # Return the view with the respective username
-        return render_template('splash.html', username=username, fav_team=fav_team)
+        return render_template('splash.html', username=username, fav_team=fav_team, team_info=team_info[0])
     # Return to login since no current session
     return redirect(url_for('login'))
 

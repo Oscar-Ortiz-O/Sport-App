@@ -41,6 +41,16 @@ def getTeamInfo(headers, teamID):
     return teamsInfo['response']
 
 
+
+# Returns a dictionary containing all info of a team
+def getTeamInfoByName(headers, name):
+    url = "https://api-football-v1.p.rapidapi.com/v3/teams"
+    params = {"name": name}
+
+    response = requests.request("GET", url, headers=headers, params=params)
+    teamsInfo = json.loads(response.text)
+    return teamsInfo['response']
+
 # Returns an array of dictionaries containing all teams within a league
 # Example: Barcelona has ID of 529
 def getPlayers(headers, teamID, season=2022):
