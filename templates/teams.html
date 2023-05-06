@@ -9,8 +9,17 @@
 
 	{% block body %}
 	
+	<div class="container" style="display: flex; justify-content: center; align-items: center;">
+		<h1>Teams in La Liga</h1>
+	</div>
+	<div class="container" style="display: flex; justify-content: center; align-items: center;">
+		<a class="btn btn-primary my-3" href="/" style="margin: 5px;">Home</a>
+		<a class="btn btn-primary my-3" href="/games">Search Games</a>
+	</div>
+	
 		<div class="container" style="display: flex; justify-content: center; align-items: center;">
 			<div class="row" align="center" >
+			
 				<ol class="list-group" style="width: 18rem; padding:5px; left: 50%;">
 					<li class="list-group-item active">Top 5 Teams by Rank</li>
 					{% for team in rankStanding %}
@@ -35,7 +44,7 @@
 							<img src="{{team['image']}}" alt="logo" class="card-img-top">
 							<div class="card-body">
 								<h5 class="card-title">{{team['name']}}</h5>
-								<a href="/teams/{{team.abbreviation}}" id="team-button" class="btn btn-primary team-link"> Players </a>
+								<a href="/players/{{team['id']}}" id="team-button" class="btn btn-primary team-link"> Players </a>
 							</div>
 							<ul class="list-group list-group-flush">
 								<li class="list-group-item">ID: {{team['id']}}</li>

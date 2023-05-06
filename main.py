@@ -1,83 +1,130 @@
-from flask import Flask, render_template, request, redirect, url_for, Response
+from flask import Flask, render_template, request, redirect, url_for, Response, flash
 import soccer_data as sd
 from Teams_Methods import *
 from standings import *
-import helpers
-import json, requests
-import subprocess
+from players import *
+import json, requests, subprocess, helpers, uuid
 from werkzeug.security import generate_password_hash
 from auth import *
-import uuid
 import secretKey as sk
+from datetime import date as dt
+from favorite import Favorite as f
 
 app = Flask(__name__)
 app.secret_key = sk.secretKey
 
 @app.route('/Home', methods=['GET','POST'])
 def index():
+    # Check if there is a valid session
     if valid_session():
-        return render_template('splash.html')
-    return render_template('login.html')
+        # Get the username
+        username = get_username()
+        fav_team = get_fav_team()
+        # If there is no fav team do not send to the template
+        if fav_team == '':
+            return render_template('splash.html', username=username)
+        # Else send fav team to the template
+        team_info = sd.getTeamInfoByName(sd.header, fav_team)
+        # Return the view with the respective username
+        return render_template('splash.html', username=username, fav_team=fav_team, team_info=team_info[0])
+    # Return to login since no current session
+    return redirect(url_for('login'))
 
 
 @app.route('/teams/')
 def teamsPage():
-    
-    teams = formatTeams(140, 2022)
-    rankStanding = topFiveStandings(formatStandings(140, 2022))
+    if valid_session():
+        teams = formatTeams(140, 2022)
+        rankStanding = topFiveStandings(formatStandings(140, 2022))
 
-    standingTeams = getStandings(createHeader(), 140, 2022)['standings'][0]
-    goalStanding = topFiveGoals(standingTeams)
-    
-    return render_template('teams.html', teams = teams, rankStanding = rankStanding, goalStanding = goalStanding)
+        standingTeams = getStandings(createHeader(), 140, 2022)['standings'][0]
+        goalStanding = topFiveGoals(standingTeams)
+        
+        return render_template('teams.html', teams = teams, rankStanding = rankStanding, goalStanding = goalStanding)
+    else:
+        return redirect(url_for('index'))
 
 
-@app.route('/players/')
-def playersPage():
-    return render_template('players.html')
+@app.route('/players/<teamID>')
+def playersPage(teamID):
+    if valid_session():
+        players = playersByTeam(createHeader(), teamID, 2022)
+        return render_template('players.html', teamID = teamID, players = players)
+    else:
+        return redirect(url_for('index'))
 
 
 @app.route('/games/')
 def gamesPage():
-    leagues_information = [
-        {"league_name": "La Liga", "id": sd.getLeagueID(headers=sd.header, country="Spain", name="La Liga")},
-        {"league_name":"Premier League", "id":sd.getLeagueID(headers=sd.header, country="England", name="Premier League")},
-        {"league_name":"Bundesliga", "id":sd.getLeagueID(headers=sd.header, country="Germany", name="Bundesliga")},
-        {"league_name":"Serie A", "id":sd.getLeagueID(headers=sd.header, country="Italy", name="Serie A")},
-        {"league_name":"Ligue 1", "id":sd.getLeagueID(headers=sd.header, country="France", name="Ligue 1")},
-    ]
-    all_games = []
-    for league in leagues_information:
-        future_games = sd.getFutureGames(sd.header, league["id"])
-        all_games.append({"league_name": league["league_name"], "games": future_games})
-    return render_template('games.html', all_games=all_games)
+    if valid_session():
+        leagues_information = [
+            {"league_name": "La Liga", "id": 140},
+            {"league_name":"Premier League", "id": 39},
+            {"league_name":"Bundesliga", "id": 78},
+            {"league_name":"Serie A", "id": 135},
+            {"league_name":"Ligue 1", "id": 61},
+        ]
+        all_games_info = []
+        for league in leagues_information:
+            future_games = sd.getFutureGames(sd.header, league["id"])
+            all_games_info += future_games
+        formatted_games = helpers.formatFutureGames(all_games_info)
+        return render_template('games.html', all_games=formatted_games)
+    else:
+        return redirect(url_for('index'))
 
 @app.route('/game/<id>')
 def individualGamePage(id):
-    return render_template('game.html', id=id)
+    if valid_session():
+        if (id is None):
+            return render_template("games.html")
+        response = sd.getGameInfo(sd.header, id)
+        response = response[0]
+        game_info = {
+            'referee': response['fixture']['referee'],
+            'date': str(dt.fromtimestamp(response['fixture']['timestamp'])),
+            'city': response['fixture']['venue']['city'],
+            'stadium': response['fixture']['venue']['name'],
+            'league': response['league']['name'],
+            'home': response['teams']['home']['name'],
+            'home_logo': response['teams']['home']['logo'],
+            'away': response['teams']['away']['name'],
+            'away_logo': response['teams']['away']['logo'],
+        }
+        return render_template('game.html', game_info=game_info)
+    else:
+        return redirect(url_for('index'))
 
 @app.route('/search_favorite/', methods=['GET', 'POST'])
 def search_favorite_page():
-    if request.method == 'POST':
-        lid = request.form.get("lid")
-        year = request.form.get("year")
-        return redirect(url_for(".favorite_page", year=year, lid=lid))
-    return render_template('search_favorite.html')
+    if valid_session():
+        if request.method == 'POST':
+            lid = request.form.get("lid")
+            year = request.form.get("year")
+            return redirect(url_for(".favorite_page", year=year, lid=lid))
+        return render_template('search_favorite.html')
+    else:
+        return redirect(url_for('index'))
 
 @app.route('/favorite/')
 def favorite_page():
-    lid = request.args.get('lid')
-    year = request.args.get('year')
-    team_list = sd.parse_team_list(sd.get_team(lid, year))
-    print(sd.get_team(lid, year))
-    return render_template('favorite.html', data=team_list)
-
+    if valid_session():
+        lid = request.args.get('lid')
+        year = request.args.get('year')
+        team_list = f.get_teams_from_api(lid, year)
+        return render_template('favorite.html', data=team_list)
+    else:
+        return redirect(url_for('index'))
 
 @app.route('/favorite_confirm/', methods=['GET'])
 def favorite_conf_page():
-    team_name = request.args.get('team_name')
-    sd.set_favorite_team(team_name)
-    return render_template('favorite_confirm.html')
+    if valid_session():
+        team_name = request.args.get('team_name')
+        add_fav_user_team(team_name)
+        f.set_json("favorite", team_name)
+        return render_template('favorite_confirm.html')
+    else:
+        return redirect(url_for('index'))
 
 #Auth
 @app.route('/', methods=['GET','POST'])
@@ -94,20 +141,20 @@ def login():
             password = request.form.get('password')
             # Check if fields are valid inputs
             if not validate_email(email):
-                print("Error: Email format is not valid!")
+                flash("Error: Email format is not valid!", category='error')
             elif len(password) == 0:
-                print("Error: No password provided")
+                flash("Error: No password provided", category='error')
             elif not email_in_use(email):
-                print("Error: No User found in our records")
+                flash("Error: No User found in our records", category='error')
             elif not valid_user_pswd_combination(email, password):
-                print("Error: No combination of credentials")
+                flash("Error: No combination of credentials", category='error')
             # Else means there are no errors, so we log in
             else:
                 # Check if session was created
                 if create_session(email) > 0:
                     # Redirect the user to the index page
                     return redirect(url_for('index'))
-                print("Error: Failure creating session")
+                flash("Error: Failure creating session", category='error')
     # Display the original template
     return render_template('login.html')
 
@@ -128,21 +175,21 @@ def signup():
             password2 = request.form.get('password2')
             # Check if fields are valid inputs
             if not validate_email(email):
-                print("Error", "Email format is not valid!")
+                flash("Error: Email format is not valid!", category='error')
             elif email_in_use(email):
-                print("Error", "Email is arleady in use by another user")
+                flash("Error: Email is arleady in use by another user", category='error')
             elif same_username(username):
-                print("Error", "Username is already taken")
+                flash("Error: Username is already taken", category='error')
             elif len(username) == 0:
-                print("Error", "No username provided")
+                flash("Error: No username provided", category='error')
             elif len(username) < 5:
-                print("Error", "Username is too short!")
+                flash("Error: Username is too short!", category='error')
             elif len(password1) == 0:
-                print("Error", "No password provided")
+                flash("Error: No password provided", category='error')
             elif password1 != password2:
-                print("Error", "Passwords do not match!")
+                flash("Error: Passwords do not match!", category='error')
             elif len(password1) < 7:
-                print("Error", "Password must be more than 8 characters long")
+                flash("Error: Password must be more than 8 characters long", category='error')
             # Else means there are no errors, so we add into the database
             else:
                 # Create a unique id for each user

@@ -7,12 +7,38 @@
 		<link rel="stylesheet" href="/static/css/splash.css"/>
 	</head>
 	<body>
-		<h1>Welcome to the Home Page</h1>
+		<h1>Welcome {{ username }}</h1>
 		<nav>
 			<ul class="list">
-				<li><a href="/teams/" class="link">Teams</a></li>
-				<li><a href="/games/" class="link">Games</a></li>	
+				<li><a href="/teams/" class="button">Teams</a></li>
+				<li><a href="/games/" class="button">Games</a></li>
+				<li><a href="/Logout/" class="button">Logout</a></li>
 			</ul>
 		</nav>
+		{% if fav_team %}
+		<h3>Favorite Team</h3>
+		<div class="container" style="padding: auto; margin: auto;">
+			<div class="row row-cols-1 row-cols-md-3 g-4">
+				<div class="col-sm-4">
+					<div class="card border" style="width: 18rem; padding:5px; display:inline-block">
+						<img src="{{team_info['team']['logo']}}"
+								align="center"
+								alt="logo"
+								style="margin-left: auto; margin-right: auto; display: block;"
+								class="card-img-top">
+						<div class="card-body" align="center">
+							<h5 class="card-title">{{team_info['team']['name']}}</h5>
+							<a href="/players/{{team_info['team']['id']}}" id="team_info-button" class="btn btn-primary team_info-link button"> Players </a>
+						</div>
+						<ul class="list-group list-group-flush">
+							<li class="list-group-item">ID: {{team_info['team']['id']}}</li>
+							<li class="list-group-item">Founded: {{team_info['team']['founded']}}</li>
+							<li class="list-group-item">Venue: {{team_info['venue']['name']}}</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+		{% endif %}
 	</body>
 </html>

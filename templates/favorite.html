@@ -19,7 +19,7 @@
     var teams = {{data|tojson}};
     teams.forEach(createTable);
 
-    function createTable(objj){
+    function createTable(obj){
         // Get the table body element in which you want to add row
         let table = document.getElementById("myTable");
 
@@ -35,12 +35,12 @@
         var linkText = document.createTextNode("Select");
         a.appendChild(linkText);
         a.title = "Favorite";
-        a.href = "/favorite_confirm?team_name="+objj["name"];
+        a.href = "/favorite_confirm?team_name="+obj["team"]["name"];
         c3.appendChild(a)
 
         // Insert data to cells
-        c1.innerText = objj["name"];
-        c2.innerText = objj["country"];
+        c1.innerText = obj["team"]["name"];
+        c2.innerText = obj["team"]["country"];
 
         // Append cells to row
         row.appendChild(c1);

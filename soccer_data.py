@@ -41,6 +41,16 @@ def getTeamInfo(headers, teamID):
     return teamsInfo['response']
 
 
+
+# Returns a dictionary containing all info of a team
+def getTeamInfoByName(headers, name):
+    url = "https://api-football-v1.p.rapidapi.com/v3/teams"
+    params = {"name": name}
+
+    response = requests.request("GET", url, headers=headers, params=params)
+    teamsInfo = json.loads(response.text)
+    return teamsInfo['response']
+
 # Returns an array of dictionaries containing all teams within a league
 # Example: Barcelona has ID of 529
 def getPlayers(headers, teamID, season=2022):
@@ -83,7 +93,7 @@ def getFutureGames(headers, leagueID):
 
     response = requests.request("GET", url, headers=headers, params=params)
     gameInfo = json.loads(response.text)
-    return helpers.formatFutureGames(gameInfo['response'])
+    return gameInfo['response']
 
 
 # Returns id of a league given the league name and country
@@ -108,48 +118,6 @@ def getGameInfo(headers, gameID):
     return gameInfo['response']
 
 
-# Receives a String and writes to "favorite.json"
-# Author: Mark
-def set_favorite_team(team_name):
-    team_name_dict = {"team name": team_name}
-    json_object = json.dumps(team_name_dict, indent=4)
-
-    with open("data/favorite.json", "w+") as JSON_file:
-        JSON_file.write(json_object)
-
-
-# Get favorite team String from JSON file
-# Author: Mark
-def get_favorite_team():
-    try:
-        with open("data/favorite.json", "r") as JSON_file:
-            team_name_dict = json.load(JSON_file)
-            team_name = team_name_dict["team name"]
-    except FileNotFoundError:
-        team_name = "undefined"
-        print("favorite.json File Does Not Exist!")
-
-    return team_name
-
-
-# Author: Mark
-def list_all_teams():
-    team_list = []
-    temp_list = []
-    with open("all_teams.txt", "w+") as file:
-        for i in range(1, 32):
-            try:
-                temp_list = getTeams(get_header(), i)
-            except KeyError:
-                print("Error " + str(i))
-            for team in temp_list:
-                name = team["team"]["name"]
-                if name not in team_list:
-                    team_list.append(name)
-                    file.write(name + "\n")
-    return team_list
-
-
 def get_team(leagueID, season=2022):
     url = "https://api-football-v1.p.rapidapi.com/v3/teams"
     params = {"league": leagueID, "season": season}
@@ -158,13 +126,6 @@ def get_team(leagueID, season=2022):
     return teamsInfo['response']
 
 
-def parse_team_list(team_data):
-    team_list = []
-    for team in team_data:
-        team_list.append(team["team"])
-    return team_list
-    
-    
 def get_header():
     k = getKey("api_key.json")
     h = createHeader()
@@ -174,4 +135,3 @@ def get_header():
 # USE THIS TO GET THE HEADER
 key = getKey("api_key.json")
 header = createHeader()
-

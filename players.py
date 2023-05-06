@@ -13,8 +13,12 @@ def playersByTeam(headers, teamID, season):
     # print(player_data)
     players = []
     for player in player_data['response']:
-        player_data = {'name': player['player']['lastname'] + ', ' + player['player']['firstname'], 'position':player['statistics'][0]['games']['position'],
-                       'goals':player['statistics'][0]['goals']['total']}
+        player_data = {'name': player['player']['lastname'] + ', ' + player['player']['firstname'],
+                       'id': player['player']['id'],
+                       'age': player['player']['age'],
+                       'position':player['statistics'][0]['games']['position'],
+                       'goals': player['statistics'][0]['goals']['total'],
+                       'image': player['player']['photo']}
         players.append(player_data)
     return players
 
@@ -75,18 +79,6 @@ def top5ScorersinLeague(headers, leagueID, season):
 #         topScorers.append()
         
 #     return topScorers
-
-
-key = getKey("api_key.json")
-header = createHeader()
-players = playersByTeam(header,85,2022)
-# print(players)
-# print(top5ScorersinLeague(header,140,2022))
-# print(sortByPosition(players,"Defender"))
-# print(topScorersinTeam(players))
-player = playerStats(header,276,2022)
-print(player)
-print(playerGoals(player))
 
 
 def get_team_players(team_id):
