@@ -18,3 +18,19 @@ def formatFutureGames(future_games):
                 unsorted_games[date] = []
             unsorted_games[date].append({"id": game_id, "team_one": team_one, "team_one_logo": team_one_logo, "team_two": team_two, "team_two_logo": team_two_logo})
     return sorted(unsorted_games.items(), key = lambda x:datetime.strptime(x[0], '%Y-%m-%d'))
+
+def formatIndividualGame(game):
+    if (game == None or game == []):
+        return None
+    game_info = {
+        'referee': game['fixture']['referee'],
+        'date': str(dt.fromtimestamp(game['fixture']['timestamp'])),
+        'city': game['fixture']['venue']['city'],
+        'stadium': game['fixture']['venue']['name'],
+        'league': game['league']['name'],
+        'home': game['teams']['home']['name'],
+        'home_logo': game['teams']['home']['logo'],
+        'away': game['teams']['away']['name'],
+        'away_logo': game['teams']['away']['logo'],
+    }
+    return game_info
