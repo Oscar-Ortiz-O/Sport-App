@@ -5,7 +5,13 @@ import json
 
 # Performs an API request for gathering data on league standings
 # La Liga ID is 140 and the most recent season is 2022
-def getStandings(headers, leagueID, season):
+def getStandings(leagueID, season):
+    
+    if (not (0 < leagueID < 5160) or not(2017 < season < 2024)):
+        return []
+
+    headers = createHeader()
+    
     try:
         url = "https://api-football-v1.p.rapidapi.com/v3/standings"
         params = {"season": season, "league": leagueID}
@@ -28,7 +34,7 @@ def formatStandings(leagueID, season):
     
     newTeams = []
     header = createHeader()
-    standings = getStandings(header, leagueID, season)['standings'][0]
+    standings = getStandings(leagueID, season)['standings'][0]
     
     for team in standings:
         newFormat = {'name': team['team']['name'],
@@ -42,6 +48,9 @@ def formatStandings(leagueID, season):
 
 # Gets the top 5 ranked teams from the league's standings
 def topFiveStandings(standings):
+    if standings == [] or 'rank' not in standings[0]:
+        return []
+    
     topNTeams = []
     for team in standings:
         if (team['rank'] <= 5):
@@ -50,6 +59,8 @@ def topFiveStandings(standings):
 
 # Gets the top 5 teams that have scored the most goals across the season
 def topFiveGoals(standings):
+    if standings == []:
+        return []
     
     topFive = []
     for i in range(5):

@@ -37,7 +37,7 @@ def teamsPage():
         teams = formatTeams(140, 2022)
         rankStanding = topFiveStandings(formatStandings(140, 2022))
 
-        standingTeams = getStandings(createHeader(), 140, 2022)['standings'][0]
+        standingTeams = getStandings(140, 2022)['standings'][0]
         goalStanding = topFiveGoals(standingTeams)
         
         return render_template('teams.html', teams = teams, rankStanding = rankStanding, goalStanding = goalStanding)
