@@ -79,18 +79,7 @@ def individualGamePage(id):
         if (id is None):
             return render_template("games.html")
         response = sd.getGameInfo(sd.header, id)
-        response = response[0]
-        game_info = {
-            'referee': response['fixture']['referee'],
-            'date': str(dt.fromtimestamp(response['fixture']['timestamp'])),
-            'city': response['fixture']['venue']['city'],
-            'stadium': response['fixture']['venue']['name'],
-            'league': response['league']['name'],
-            'home': response['teams']['home']['name'],
-            'home_logo': response['teams']['home']['logo'],
-            'away': response['teams']['away']['name'],
-            'away_logo': response['teams']['away']['logo'],
-        }
+        game_info = helpers.formatIndividualGame(response[0])
         return render_template('game.html', game_info=game_info)
     else:
         return redirect(url_for('index'))

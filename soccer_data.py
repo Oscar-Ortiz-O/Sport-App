@@ -110,6 +110,8 @@ def getLeagueID(headers, name, country):
 
 # Returns array containing game information
 def getGameInfo(headers, gameID):
+    if (gameID == -1 or gameID == None or headers == None or headers == ""):
+        return None
     url = "https://api-football-v1.p.rapidapi.com/v3/fixtures"
     params = {"id": gameID}
 
