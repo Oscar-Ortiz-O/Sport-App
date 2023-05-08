@@ -29,7 +29,10 @@ def playerStats(headers, playerID, season):
     response = requests.request("GET", url, headers=headers, params=params)
     player_data = json.loads(response.text)
 
-    return player_data['response'][0]['statistics']
+    if(player_data['results']!=0):
+        return player_data['response'][0]['statistics']
+    else:
+        return []
 
 def sortByPosition(players,position):
     positionPlayers = []
@@ -72,61 +75,25 @@ def top5ScorersinLeague(headers, leagueID, season):
             players.append(player_data)
     return players
 
-# def dirtiestInTeam(players):
-#     topScorers = []
-#     for i in range(5):
-#         newMax = max(players, key = lambda x: x['statistics'][0]['goals'])
-#         topScorers.append()
-        
-#     return topScorers
 
+# def get_team_players(team_id):
+#     """Retrieve data for all football players in a team using an API"""
 
-def get_team_players(team_id):
-    """Retrieve data for all football players in a team using an API"""
+#     # Define the API endpoint and request parameters
+#     endpoint = f"https://api.football-data.org/v2/teams/{team_id}"
+#     headers = {"X-Auth-Token": "YOUR_API_KEY"}
 
-    # Define the API endpoint and request parameters
-    endpoint = f"https://api.football-data.org/v2/teams/{team_id}"
-    headers = {"X-Auth-Token": "YOUR_API_KEY"}
+#     # Make the API request and store the response as JSON data
+#     response = requests.get(endpoint, headers=headers)
+#     team_data = response.json()
 
-    # Make the API request and store the response as JSON data
-    response = requests.get(endpoint, headers=headers)
-    team_data = response.json()
+#     # Extract the player data from the JSON response and store it in a list of dictionaries
+#     players = []
+#     for player in team_data['squad']:
+#         player_data = {'name': player['name'], 'age': player['age'], 'nationality': player['nationality'],
+#                        'position': player['position'], 'shirt_number': player['shirtNumber']}
+#         players.append(player_data)
 
-    # Extract the player data from the JSON response and store it in a list of dictionaries
-    players = []
-    for player in team_data['squad']:
-        player_data = {'name': player['name'], 'age': player['age'], 'nationality': player['nationality'],
-                       'position': player['position'], 'shirt_number': player['shirtNumber']}
-        players.append(player_data)
+#     # Return the player data as a list of dictionaries
+#     return players
 
-    # Return the player data as a list of dictionaries
-    return players
-
-# def getStandings(headers, leagueID, season):
-#     url = "https://api-football-v1.p.rapidapi.com/v3/standings"
-#     params = {"season": season, "league": leagueID}
-
-#     response = requests.request("GET", url, headers=headers, params=params)
-#     standingInfo = json.loads(response.text)
-#     return standingInfo['response'][0]['league']
-
-
-# def sortByGoals(players):
-#     if players == None:
-#         return []
-#     sortedPlayers = []
-
-# def formatFutureGames(future_games):
-#     if len(future_games) == 0 or future_games == None:
-#         return []
-#     unsorted_games = []
-#     for games in future_games:
-#         game_id = games['fixture']['id']
-#         date = dt.fromtimestamp(games['fixture']['timestamp'])
-#         team_one = games['teams']['home']['name']
-#         team_two = games['teams']['away']['name']
-#         unsorted_games.append({"id" :game_id, "date": str(date), "team_one": team_one, "team_two": team_two})
-#     return sorted(
-#         unsorted_games,
-#         key=lambda x: datetime.strptime(x['date'], '%Y-%m-%d')
-#     )
